@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="<%= VUE_APP_GA_SCRIPT_SRC %>"></script>
+  <script>
+    if (Boolean('<%= VUE_APP_GA_ID %>')) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', '<%= VUE_APP_GA_ID %>');
+    }
+  </script>
+
+  <!-- Standard Meta -->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta name="author" content="The Amazing DOMANI Team">
+  <meta name="mobile-web-app-capable" content="no">
+
+  <!-- Site Properties -->
+  <link rel="apple-touch-icon" sizes="180x180" href="<%= BASE_URL %>apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="<%= BASE_URL %>favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="<%= BASE_URL %>favicon-16x16.png">
+  <link rel="manifest" href="<%= BASE_URL %>site.webmanifest">
+
+  <title>Domani | ÐAPP</title>
+
+  <script>
+    if (window.ethereum) {
+      window.ethereum.autoRefreshOnNetworkChange = false
+    }
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js"></script>
+
+  <!--
+    For the moment use 3.3.1 because, as mentioned in https://github.com/fomantic/Fomantic-UI-Docs/pull/200,
+    as 3.4.x seem to break some modules in certain situations as reported in https://github.com/fomantic/Fomantic-UI/issues/1313
+  -->
+  <script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+    integrity="sha512-+NqPlbbtM1QqiK8ZAo4Yrj2c4lNQoGv8P79DPtKzj++l5jnN39rHA/xsqn8zE9l0uSoxaCdrOgFs6yjyfbBxSg=="
+    crossorigin="anonymous"></script>
+  <!--
+  <script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.6/semantic.min.js"
+    integrity="sha512-NVlJzayXuSvGMZlWvctk3taLRDlsypiqHywmEyqchhwyCrxBoRKWbwsglb5wtefQQfN4MIZ0tJjgPKLvx4oRaw=="
+    crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.6/semantic.min.css"
+    integrity="sha512-iSqS4kzNsM1EfZCUXG3mUIbdTLwJbH/axMoyliD6Ko5bShJbzbXVIgyK5FJqFnPiDsfw7ZLVUhx9nlGGcIeFTg=="
+    crossorigin="anonymous" />
+  -->
+
+  <script src="https://cdn.dextf.com/fomantic-ui/semantic.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.dextf.com/fomantic-ui/semantic.min.css" />
+
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.compat.css"
+    integrity="sha512-X5XtTVn7B6NZqs+ldhiPrjQzwD+lJhDZCbAuPSSQEw+e3FXVD/shwylIZS62D5deol7/AGWoL8Ero5suB3s7zQ=="
+    crossorigin="anonymous" />
+
+  <style>
+    /*
+    .body-background-solid {
+      background-color: white;
+      height: 100%;
+    }
+
+    a,
+    a:hover {
+      color: #9a9a9a;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    a.disabled,
+    a.disabled:hover {
+      color: #9a9a9a;
+      cursor: default;
+    }
+    */
+
+    /* Works on Firefox */
+    /*
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: #2a2a2a #121212;
+    }
+    */
+
+    /* Works on Chrome, Edge, and Safari */
+    /*
+    *::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    *::-webkit-scrollbar-track {
+      background: #121212;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background-color: #2a2a2a;
+      border-radius: 20px;
+      border: 3px solid #121212;
+    }
+    */
+
+    /* Remove the spinner for numeric input for Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Remove the spinner for numeric input for Firefox */
+    input[type='number'] {
+      -moz-appearance: textfield !important;
+    }
+
+    @media screen and (min-width: 1400px) and (min-height: 800px) {
+
+      /* Hide scrollbar for Chrome, Safari and Opera */
+      *::-webkit-scrollbar {
+        display: none;
+      }
+
+      /* Hide scrollbar for IE, Edge and Firefox */
+      * {
+        /* IE and Edge */
+        -ms-overflow-style: none;
+        /* Firefox */
+        scrollbar-width: none;
+      }
+    }
+
+    /* @mutedColor */
+    ._muted {
+      color: #8e8e8e !important;
+    }
+
+    ._faded {
+      filter: brightness(40%) !important;
+    }
+
+    /* @errorColor */
+    ._error {
+      color: #CF6679 !important;
+    }
+
+    /* @warningColor */
+    ._warning {
+      color: #F2C037 !important;
+    }
+
+    /* @infoColor */
+    ._info {
+      color: #A9D5DE !important;
+    }
+
+    ._green {
+      color: #95fc70 !important;
+    }
+
+    ._red {
+      color: #cf0202 !important;
+    }
+
+    ._normal {
+      font-weight: normal !important;
+    }
+
+    ._pointer {
+      cursor: pointer;
+    }
+
+    ._notAllowedPointer {
+      cursor: not-allowed;
+    }
+
+    ._selectable:hover {
+      filter: brightness(150%);
+    }
+
+    /* Additional Semantic UI transitions */
+
+    /* Glow-Up */
+    .transition.glowup {
+      -webkit-animation-duration: 1000ms;
+      animation-duration: 1000ms;
+      -webkit-animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+      animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .transition.glowup {
+      -webkit-animation-name: glowup;
+      animation-name: glowup;
+    }
+
+    @-webkit-keyframes glowup {
+      0% {
+        background-color: #fcfcfd;
+      }
+
+      30% {
+        background-color: #21ba45;
+        color: white;
+      }
+
+      100% {
+        background-color: #21ba45;
+        color: white;
+      }
+    }
+
+    @keyframes glowup {
+      0% {
+        background-color: #fcfcfd;
+      }
+
+      30% {
+        background-color: #21ba45;
+        color: white;
+      }
+
+      100% {
+        background-color: #21ba45;
+        color: white;
+      }
+    }
+
+    /* Glow-Down */
+
+    .transition.glowdown {
+      -webkit-animation-duration: 1000ms;
+      animation-duration: 1000ms;
+      -webkit-animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+      animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .transition.glowdown {
+      -webkit-animation-name: glowdown;
+      animation-name: glowdown;
+    }
+
+    @-webkit-keyframes glowdown {
+      0% {
+        background-color: #fcfcfd;
+      }
+
+      30% {
+        background-color: #942919;
+        color: white;
+      }
+
+      100% {
+        background-color: #942919;
+      }
+    }
+
+    @keyframes glowdown {
+      0% {
+        background-color: #fcfcfd;
+      }
+
+      30% {
+        background-color: #942919;
+        color: white;
+      }
+
+      100% {
+        background-color: #942919;
+        color: white;
+      }
+    }
+  </style>
+</head>
+
+<!-- We use a Semantic UI container for the body - https://semantic-ui.com/elements/container.html -->
+
+<!--<body class="ui container body-background-solid">-->
+
+<body>
+  <noscript>
+    <strong>
+      We're sorry but the DOMANI Ðapp doesn't work properly without JavaScript
+      enabled. Please enable it to continue.
+    </strong>
+  </noscript>
+
+  <div id="app"></div>
+  <!-- built files will be auto injected -->
+</body>
+
+</html>
